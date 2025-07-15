@@ -9,13 +9,15 @@ on:
   pull_request:
     branches:
       - master
+env:
+  RELEASE: 5.0.0.43
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Prepare
       run: mkdir output
@@ -24,10 +26,11 @@ jobs:
       id: build_armv7hl
       uses: coderus/github-sfos-build@master
       with:
-        release: 3.3.0.14
-      
+        release: ${{ env.RELEASE }}
+        arch: armv7hl
+
     - name: Upload build result
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: gpodder-rpms
         path: RPMS
