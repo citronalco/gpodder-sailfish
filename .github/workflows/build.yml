@@ -22,12 +22,12 @@ jobs:
     - name: Prepare
       run: mkdir output
 
-    - name: Build armv7hl
-      id: build_armv7hl
+    - name: Build aarch64
+      id: build_aarch64
       uses: coderus/github-sfos-build@master
       with:
         release: ${{ env.RELEASE }}
-        arch: armv7hl
+        arch: aarch64
 
     - name: Upload build result
       uses: actions/upload-artifact@v4
@@ -44,6 +44,6 @@ jobs:
           assets+=("-a" "$asset")
         done
         tag_name="${GITHUB_REF##*/}"
-        hub release create "${assets[@]}" -m "$tag_name" "$tag_name"
+        gh release create "$tag_name" "${assets[@]}"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
